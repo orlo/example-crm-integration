@@ -11,7 +11,9 @@ Assertion::isInstanceOf($app, App::class);
 Assertion::isInstanceOf($container, ContainerInterface::class);
 
 $container['shared_secret'] = function () {
-    return 'super-secret';
+    $secret = getenv('SSI_SHARED_SECRET');
+    Assertion::notEmpty($secret);
+    return $secret;
 };
 
 $container['person_repository'] = function () {
