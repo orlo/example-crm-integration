@@ -12,13 +12,13 @@ docker run -e SHARED_SECRET=changeme --rm --name crm-integration crm-integration
 
 Code should work on a generic-ish PHP 7 Linux server if you wish to deploy it manually. Instructions should be within the Dockerfile. 
 
-It requires a SHARED_SECRET environment variable to be set.
+It requires a SHARED\_SECRET environment variable to be set.
 
 ## Configuration
 
-The SHARED_SECRET environment variable is used to verify that SocialSignIn made the CRM request, and for SocialSignIn to  verify responses.
+The SHARED\_SECRET environment variable is used to verify that SocialSignIn made the CRM request, and for SocialSignIn to  verify responses.
 
-The signing works by adding a sha256 hash_hmac query parameter on all requests.
+The signing works by adding a sha256 hash\_hmac query parameter on all requests (see: http://php.net/hash_hmac )
 
 You can choose to ignore this parameter if you so wish.
 
@@ -28,7 +28,7 @@ Any third party / custom integration needs to support the following :
 
 ## Search 
 
- * GET request, with signed parameters (see SHARED_SECRET above)
+ * GET request, with signed parameters (see SHARED\_SECRET above)
  * Endpoint is specified by you when adding the integration
  * Parameter 'q' contains the search string.
  * Return json (application/json mimetype).
