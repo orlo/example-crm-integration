@@ -14,11 +14,9 @@ Code should work on a generic-ish PHP 7 Linux server if you wish to deploy it ma
 
 It requires a SHARED_SECRET environment variable to be set.
 
-
 ## Configuration
 
 The SHARED_SECRET environment variable is used to verify that SocialSignIn made the CRM request, and for SocialSignIn to  verify responses.
-
 
 The signing works by adding a sha256 hash_hmac query parameter on all requests.
 
@@ -30,7 +28,7 @@ Any third party / custom integration needs to support the following :
 
 ## Search 
 
- * GET request, with signed parameters (see SHARED_SECRET above) or HTTP BASIC authentication
+ * GET request, with signed parameters (see SHARED_SECRET above)
  * Endpoint is specified by you when adding the integration
  * Parameter 'q' contains the search string.
  * Return json (application/json mimetype).
@@ -59,7 +57,7 @@ Where :
  
 #### Example request validation 
 
-You **should** check that the expires value in the URL is greater than your current system timestamp. 
+You **should** check that the expires value in the URL is greater or equal to your current system timestamp. 
 
 You **should** check that the signature is valid.
 
@@ -90,14 +88,14 @@ if($expected_sig != $actual_sig) {
 
 ### Response
  
- ```json
- {
-     "results" : [
-         { "id": 1, "name": "Susan Red"} ,
-         { "id": 4, "name": "Frank Redford"} 
-     ]
- }
- ```
+```json
+{
+    "results" : [
+        { "id": 1, "name": "Susan Red"} ,
+        { "id": 4, "name": "Frank Redford"} 
+    ]
+}
+```
  
 ## Get Specific User
  
@@ -108,9 +106,14 @@ if($expected_sig != $actual_sig) {
 ### Request 
 
 ```raw
-GET $CustomUrl/iframe?id=12345
+GET $CustomUrl/iframe?id=12345&expires=1234567&sig=hashhashhash HTTP/1.1
+Host: .....
+
 ```
 
+ * You **should** verify the 'sig' URL parameter is correct (see above)
+ * You **should** verify the 'expires' URL parameter is greater or equal to the current system time.
+ 
 ### Response
 
 HTML to render the user, as determined by your internal requirements.
