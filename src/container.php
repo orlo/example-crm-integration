@@ -10,8 +10,18 @@ use SocialSignIn\ExampleCrmIntegration\Person\MockRepository;
 Assertion::isInstanceOf($app, App::class);
 Assertion::isInstanceOf($container, ContainerInterface::class);
 
+$container['errorHandler'] = function ($c) {
+    return function ($request, $response, $exception) use ($c) {
+        error_log("Exception encountered " . get_class($exception) . ' / ' . $exception->getMessage());
+        return $c['response']->withJson(['status' => 'error', 'error' => $exception->getMessage()], 500);
+    };
+};
+
 $container['shared_secret'] = function () {
-    $secret = getenv('SSI_SHARED_SECRET');
+    $secret = getenv('SHARED_SECRET');
+    if (empty($secret)) {
+        throw new \InvalidArgumentException("SHARED_SECRET not defined in environment. Cannot continue.");
+    }
     Assertion::notEmpty($secret);
     return $secret;
 };

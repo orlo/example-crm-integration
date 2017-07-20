@@ -2,8 +2,8 @@
 
 namespace SocialSignIn\ExampleCrmIntegration\Authentication;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 final class SignatureAuthentication
 {
@@ -27,7 +27,7 @@ final class SignatureAuthentication
         $this->sharedSecret = $sharedSecret;
     }
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
+    public function __invoke(Request $request, Response $response, callable $next)
     {
         $query = $request->getQueryParams();
 
@@ -37,26 +37,25 @@ final class SignatureAuthentication
             || !is_string($query['expires'])
             || !ctype_digit($query['expires'])
         ) {
-            return $response->withStatus(400);
+            return $response->withJson(['status' => 'error', 'error' => 'missing or invalid sig or expires params'], 400);
         }
-
-        ksort($query);
 
         $signature = $query['sig'];
         unset($query['sig']);
 
-        if (!hash_equals(hash_hmac('sha256', join(':', $query), $this->sharedSecret), $signature)) {
-            return $response->withStatus(403);
+        $expected = hash_hmac('sha256', http_build_query($query), $this->sharedSecret);
+
+        if ($expected != $signature) {
+            error_log("Signature mismatch: $expected vs $signature");
+            return $response->withJson(['status' => 'error', 'error' => 'Signature mismatch'], 403);
         }
 
-        if (time() > $query['expires']) {
-            return $response->withStatus(403);
+        $now = time();
+        if ($now > $query['expires']) {
+            error_log("Request has expired. Clock skew or attempt at replay attack. $now vs {$query['expires']}");
+            return $response->withJson(['status' => 'error', 'error' => 'request expired'], 403);
         }
 
-        try {
-            return $next($request, $response);
-        } catch (\Exception $e) {
-            return $response->withStatus(500);
-        }
+        return $next($request, $response);
     }
 }

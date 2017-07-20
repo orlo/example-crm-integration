@@ -21,11 +21,11 @@ final class SearchController
         $query = $request->getQueryParam('q', null);
 
         if (empty($query)) {
-            return $response->withStatus(400);
+            throw new \InvalidArgumentException("q empty or not specified");
         }
 
         return $response->withJson([
-            'data' => $this->repository->search($query)
+            'results' => $this->repository->search($query)
         ], 200);
     }
 }
