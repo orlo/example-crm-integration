@@ -2,7 +2,7 @@
 
     DocumentRoot /srv/example-crm-integration/public
 
-    # SetEnv SHARED_SECRET changeme!
+    # SetEnv SECRET changeme!
 
     <Directory "/srv/example-crm-integration">
         Options FollowSymlinks

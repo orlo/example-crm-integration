@@ -2,23 +2,40 @@
 
 This project aims to illustrate the functionality required for a custom CRM to integrate with SocialSignIn.
 
-## Sample Integration Installation
+## SocialSignIn Configuration 
 
+Within the SocialSignIn application, head to https://app.socialsignin.net/#/settings/inbox and add a Custom CRM integration.
+
+ * Name - something of your choosing
+ * Search Endpoint URL - https://myserver.example.com/search
+ * Search Endpoint Secret - LongStringlyThingOfYourChoosing (aka SECRET)
+ * Iframe Endpoint URL - https://myserver.example.com/iframe
+ * Iframe Endpoint Secret - LongStringlyThingOfYourChoosing (aka SECRET)
+
+( For this integration, the Search and Iframe Endpoint Secrets need to be the same, replace 'myserver.example.com' with a real hostname you have assigned to your deployment of this code ).
+
+### SocialSignIn Secret 
+
+When SocialSignIn make requests on your integration, the requests are signed with a shared secret (SECRET) which you can check against, to ensure a third party isn't trying to access your pipedrive data.
+
+You define this secret when adding the CRM integration within SocialSignIn. It can be a string of any length (although as with all passwords, longer is generally better).
+
+## Sample Integration Installation
 
 ```bash
 docker build -t crm-integration-image .
-docker run -e SHARED_SECRET=changeme --rm --name crm-integration crm-integration-image
+docker run -e SECRET=changeme --rm --name crm-integration crm-integration-image
 ```
 
 Code should work on a generic-ish PHP 7 Linux server if you wish to deploy it manually. Instructions should be within the Dockerfile. 
 
-It requires a SHARED\_SECRET environment variable to be set.
+It requires a SECRET environment variable to be set.
 
 ## Configuration
 
-The SHARED\_SECRET environment variable is used to verify that SocialSignIn made the CRM request, and for SocialSignIn to  verify responses.
+The SECRET environment variable is used to verify that SocialSignIn made the CRM request, and for SocialSignIn to  verify responses.
 
-The signing works by adding a sha256 hash\_hmac query parameter on all requests (see: http://php.net/hash_hmac )
+The signing works by adding a sha256 hash\_hmac query parameter on all requests (see: http://php.net/hash\_hmac )
 
 You can choose to ignore this parameter if you so wish.
 
@@ -28,7 +45,7 @@ Any third party / custom integration needs to support the following :
 
 ## Search 
 
- * GET request, with signed parameters (see SHARED\_SECRET above)
+ * GET request, with signed parameters (see SECRET above)
  * Endpoint is specified by you when adding the integration
  * Parameter 'q' contains the search string.
  * Return json (application/json mimetype).

@@ -18,9 +18,9 @@ $container['errorHandler'] = function ($c) {
 };
 
 $container['shared_secret'] = function () {
-    $secret = getenv('SHARED_SECRET');
+    $secret = getenv('SECRET');
     if (empty($secret)) {
-        throw new \InvalidArgumentException("SHARED_SECRET not defined in environment. Cannot continue.");
+        throw new \InvalidArgumentException("SECRET not defined in environment. Cannot continue.");
     }
     Assertion::notEmpty($secret);
     return $secret;
