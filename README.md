@@ -27,7 +27,7 @@ docker build -t crm-integration-image .
 docker run -e SECRET=changeme --rm --name crm-integration crm-integration-image
 ```
 
-Code should work on a generic-ish PHP 7 Linux server if you wish to deploy it manually. Instructions should be within the Dockerfile. 
+Code should work on a generic-ish PHP 7.1 Linux server if you wish to deploy it manually. Sufficient setup instructions should be within the ```Dockerfile```. 
 
 It requires a SECRET environment variable to be set.
 
