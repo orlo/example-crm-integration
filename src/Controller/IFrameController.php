@@ -10,7 +10,14 @@ use Twig_Environment;
 final class IFrameController
 {
 
+    /**
+     * @var Twig_Environment
+     */
     private $twig;
+
+    /**
+     * @var RepositoryInterface
+     */
     private $repository;
 
     public function __construct(Twig_Environment $twig, RepositoryInterface $repository)
