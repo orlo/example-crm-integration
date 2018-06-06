@@ -5,5 +5,12 @@ use Slim\App;
 
 Assertion::isInstanceOf($app, App::class);
 
-$app->get('/search', 'search_controller')->setName('search');
-$app->get('/iframe', 'i_frame_controller')->setName('i-frame');
+$app->get(
+    '/search',
+    \SocialSignIn\ExampleCrmIntegration\Controller\SearchController::class . ':search'
+)->setName('search');
+
+$app->get(
+    '/iframe',
+    \SocialSignIn\ExampleCrmIntegration\Controller\IFrameController::class . ':iframe'
+)->setName('i-frame');

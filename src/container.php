@@ -34,11 +34,3 @@ $container['twig'] = function () {
     $loader = new Twig_Loader_Filesystem(__DIR__ . '/../templates');
     return new Twig_Environment($loader, []);
 };
-
-$container['search_controller'] = function (ContainerInterface $c) {
-    return new SearchController($c->get('person_repository'));
-};
-
-$container['i_frame_controller'] = function (ContainerInterface $c) {
-    return new IFrameController($c->get('twig'), $c->get('person_repository'));
-};

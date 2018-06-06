@@ -2,6 +2,7 @@
 
 namespace SocialSignIn\ExampleCrmIntegration\Controller;
 
+use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use SocialSignIn\ExampleCrmIntegration\Person\RepositoryInterface;
@@ -9,14 +10,17 @@ use SocialSignIn\ExampleCrmIntegration\Person\RepositoryInterface;
 final class SearchController
 {
 
+    /**
+     * @var RepositoryInterface
+     */
     private $repository;
 
-    public function __construct(RepositoryInterface $repository)
+    public function __construct(Container $c)
     {
-        $this->repository = $repository;
+        $this->repository = $c['person_repository'];
     }
 
-    public function __invoke(Request $request, Response $response)
+    public function search(Request $request, Response $response): Response
     {
         $query = $request->getQueryParam('q', null);
 

@@ -2,6 +2,7 @@
 
 namespace SocialSignIn\ExampleCrmIntegration\Controller;
 
+use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use SocialSignIn\ExampleCrmIntegration\Person\RepositoryInterface;
@@ -20,13 +21,13 @@ final class IFrameController
      */
     private $repository;
 
-    public function __construct(Twig_Environment $twig, RepositoryInterface $repository)
+    public function __construct(Container $c)
     {
-        $this->twig = $twig;
-        $this->repository = $repository;
+        $this->twig = $c['twig'];
+        $this->repository = $c['person_repository'];
     }
 
-    public function __invoke(Request $request, Response $response)
+    public function iframe(Request $request, Response $response): Response
     {
         $id = $request->getQueryParam('id', null);
 

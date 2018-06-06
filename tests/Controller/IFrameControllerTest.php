@@ -2,11 +2,12 @@
 
 namespace SocialSignIn\Test\ExampleCrmIntegration\Controller;
 
+use Mockery as m;
+use Slim\Container;
 use Slim\Http\Environment;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use SocialSignIn\ExampleCrmIntegration\Controller\IFrameController;
-use Mockery as m;
 use SocialSignIn\ExampleCrmIntegration\Person\Entity;
 use SocialSignIn\ExampleCrmIntegration\Person\RepositoryInterface;
 
@@ -35,7 +36,12 @@ class IFrameControllerTest extends \PHPUnit_Framework_TestCase
     {
         $this->twig = m::mock(\Twig_Environment::class);
         $this->repository = m::mock(RepositoryInterface::class);
-        $this->controller = new IFrameController($this->twig, $this->repository);
+
+        $container = new Container();
+        $container['twig'] = $this->twig;
+        $container['person_repository'] = $this->repository;
+
+        $this->controller = new IFrameController($container);
     }
 
     public function tearDown()
@@ -64,7 +70,7 @@ class IFrameControllerTest extends \PHPUnit_Framework_TestCase
         $response = new Response();
 
         /** @var Response $response */
-        $response = call_user_func($this->controller, $request, $response);
+        $response = $this->controller->iframe($request, $response);
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('<html></html>', (string)$response->getBody());
@@ -81,7 +87,7 @@ class IFrameControllerTest extends \PHPUnit_Framework_TestCase
         $response = new Response();
 
         /** @var Response $response */
-        $response = call_user_func($this->controller, $request, $response);
+        $response = $this->controller->iframe($request, $response);
 
         $this->assertEquals(400, $response->getStatusCode());
     }
@@ -102,7 +108,7 @@ class IFrameControllerTest extends \PHPUnit_Framework_TestCase
         $response = new Response();
 
         /** @var Response $response */
-        $response = call_user_func($this->controller, $request, $response);
+        $response = $this->controller->iframe($request, $response);
 
         $this->assertEquals(404, $response->getStatusCode());
     }

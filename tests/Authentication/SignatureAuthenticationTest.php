@@ -23,8 +23,7 @@ class SignatureAuthenticationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Expected $sharedSecret to be non-empty string.
+     * @expectedException \TypeError
      */
     public function testInvalidSharedSecret()
     {
@@ -103,20 +102,19 @@ class SignatureAuthenticationTest extends \PHPUnit_Framework_TestCase
         );
 
         $cb = function ($request, Response $response) {
-            throw new \Exception('');
+            throw new \Exception('asdf');
         };
 
-        /** @var Response $response */
-        $response = call_user_func($this->middleware, $request, new Response(), $cb);
 
-        $this->assertEquals(500, $response->getStatusCode());
+        $this->setExpectedException(\Exception::class);
+        $response = call_user_func($this->middleware, $request, new Response(), $cb);
     }
 
-    private function sign(array $params, $secret, $ttl = 3600)
+    private function sign(array $params, $secret, $ttl = 3600): string
     {
         $params['expires'] = time() + $ttl;
-        ksort($params);
-        $params['sig'] = hash_hmac('sha256', join(':', $params), $secret);
+
+        $params['sig'] = hash_hmac('sha256', http_build_query($params), $secret);
         return http_build_query($params);
     }
 }

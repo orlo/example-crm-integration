@@ -2,11 +2,12 @@
 
 namespace SocialSignIn\Test\ExampleCrmIntegration\Controller;
 
+use Mockery as m;
+use Slim\Container;
 use Slim\Http\Environment;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use SocialSignIn\ExampleCrmIntegration\Controller\SearchController;
-use Mockery as m;
 use SocialSignIn\ExampleCrmIntegration\Person\Entity;
 use SocialSignIn\ExampleCrmIntegration\Person\RepositoryInterface;
 
@@ -29,7 +30,9 @@ class SearchControllerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->repository = m::mock(RepositoryInterface::class);
-        $this->controller = new SearchController($this->repository);
+        $container = new Container();
+        $container['person_repository'] = $this->repository;
+        $this->controller = new SearchController($container);
     }
 
     public function tearDown()
@@ -53,11 +56,11 @@ class SearchControllerTest extends \PHPUnit_Framework_TestCase
         $response = new Response();
 
         /** @var Response $response */
-        $response = call_user_func($this->controller, $request, $response);
+        $response = $this->controller->search($request, $response);
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertJsonStringEqualsJsonString(
-            '{"data": [{"id":"1","name":"John"},{"id":"2","name":"Johnny"}]}',
+            '{"results": [{"id":"1","name":"John"},{"id":"2","name":"Johnny"}]}',
             (string)$response->getBody()
         );
     }
@@ -73,8 +76,7 @@ class SearchControllerTest extends \PHPUnit_Framework_TestCase
         $response = new Response();
 
         /** @var Response $response */
-        $response = call_user_func($this->controller, $request, $response);
-
-        $this->assertEquals(400, $response->getStatusCode());
+        $this->setExpectedException(\InvalidArgumentException::class);
+        $response = $this->controller->search($request, $response);
     }
 }

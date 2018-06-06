@@ -18,9 +18,9 @@ final class SignatureAuthentication
      *
      * @throws \Exception
      */
-    public function __construct($sharedSecret)
+    public function __construct(string $sharedSecret)
     {
-        if (!is_string($sharedSecret) || empty($sharedSecret)) {
+        if (empty($sharedSecret)) {
             throw new \Exception('Expected $sharedSecret to be non-empty string.');
         }
 
@@ -37,7 +37,13 @@ final class SignatureAuthentication
             || !is_string($query['expires'])
             || !ctype_digit($query['expires'])
         ) {
-            return $response->withJson(['status' => 'error', 'error' => 'missing or invalid sig or expires params'], 400);
+            return $response->withJson(
+                [
+                    'status' => 'error',
+                    'error' => 'missing or invalid sig or expires params'
+                ],
+                400
+            );
         }
 
         $signature = $query['sig'];
