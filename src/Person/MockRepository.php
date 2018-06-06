@@ -5,6 +5,9 @@ namespace SocialSignIn\ExampleCrmIntegration\Person;
 final class MockRepository implements RepositoryInterface
 {
 
+    /**
+     * @var Entity[]
+     */
     private $persons = [];
 
     public function __construct()

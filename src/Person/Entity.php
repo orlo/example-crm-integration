@@ -5,31 +5,28 @@ namespace SocialSignIn\ExampleCrmIntegration\Person;
 final class Entity implements \JsonSerializable
 {
 
+    /**
+     * @var string
+     */
     private $id;
-    private $name;
 
     /**
-     * @param string $id
-     * @param string $name
+     * @var string
      */
-    public function __construct($id, $name)
+    private $name;
+
+    public function __construct(string $id, string $name)
     {
         $this->id = $id;
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
