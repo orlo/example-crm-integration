@@ -2,9 +2,16 @@ FROM debian:stretch
 MAINTAINER me
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && \
-    apt-get install -y php7.0-cli php7.0-curl php7.0-json php7.0-xml php7.0-mysql php7.0-sqlite php7.0-mbstring \
-        libapache2-mod-php7.0 curl lsb-release ca-certificates unzip apache2 && \
+
+RUN apt-get -qq update && apt-get -qy install eatmydata && \
+    eatmydata -- apt-get -qy install apt-transport-https && apt-get clean && rm -Rf /var/lib/apt/lists
+
+COPY provisioning/debsury.list /etc/apt/sources.list.d/debsury.list
+COPY provisioning/debsury.gpg /etc/apt/trusted.gpg.d/debsury.gpg
+
+RUN eatmydata -- apt-get -q update && \
+    eatmydata -- apt-get -qy install php7.1-cli php7.1-curl php7.1-json php7.1-xml php7.1-mysql php7.1-sqlite php7.1-mbstring \
+        libapache2-mod-php7.1 curl lsb-release ca-certificates unzip apache2 && \
     rm -rf /var/lib/apt/lists/* && \
     rm /etc/apache2/sites-enabled/* && \
     a2enmod rewrite deflate 
