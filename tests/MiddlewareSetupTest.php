@@ -4,7 +4,7 @@ namespace SocialSignIn\Test\ExampleCrmIntegration;
 
 use Slim\App;
 
-class MiddlewareSetupTest extends \PHPUnit_Framework_TestCase
+class MiddlewareSetupTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testMiddleware()

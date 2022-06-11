@@ -3,6 +3,10 @@
 use Assert\Assertion;
 use Slim\App;
 
+if(!isset($app)) {
+    throw new \LogicException('$app?');
+}
+
 Assertion::isInstanceOf($app, App::class);
 
 $app->get(

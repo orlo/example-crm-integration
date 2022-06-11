@@ -8,7 +8,7 @@ use SocialSignIn\ExampleCrmIntegration\Person\MockRepository;
 /**
  * @covers \SocialSignIn\ExampleCrmIntegration\Person\MockRepository
  */
-class MockRepositoryTest extends \PHPUnit_Framework_TestCase
+class MockRepositoryTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -16,7 +16,7 @@ class MockRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     private $repository;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->repository = new MockRepository();
     }

@@ -10,13 +10,13 @@ use SocialSignIn\ExampleCrmIntegration\Authentication\SignatureAuthentication;
 /**
  * @covers \SocialSignIn\ExampleCrmIntegration\Authentication\SignatureAuthentication
  */
-class SignatureAuthenticationTest extends \PHPUnit_Framework_TestCase
+class SignatureAuthenticationTest extends \PHPUnit\Framework\TestCase
 {
 
     private $sharedSecret;
     private $middleware;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->sharedSecret = md5(random_bytes(32));
         $this->middleware = new SignatureAuthentication($this->sharedSecret);
@@ -106,7 +106,7 @@ class SignatureAuthenticationTest extends \PHPUnit_Framework_TestCase
         };
 
 
-        $this->setExpectedException(\Exception::class);
+        $this->expectException(\Exception::class);
         $response = call_user_func($this->middleware, $request, new Response(), $cb);
     }
 

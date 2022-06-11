@@ -6,7 +6,7 @@ use Slim\App;
 use Slim\Route;
 use Slim\Router;
 
-class RoutesSetupTest extends \PHPUnit_Framework_TestCase
+class RoutesSetupTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testRoutes()

@@ -7,7 +7,7 @@ use SocialSignIn\ExampleCrmIntegration\Controller\IFrameController;
 use SocialSignIn\ExampleCrmIntegration\Controller\SearchController;
 use SocialSignIn\ExampleCrmIntegration\Person\RepositoryInterface;
 
-class ContainerSetupTest extends \PHPUnit_Framework_TestCase
+class ContainerSetupTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testContainer()

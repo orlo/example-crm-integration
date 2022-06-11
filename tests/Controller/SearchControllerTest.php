@@ -14,7 +14,7 @@ use SocialSignIn\ExampleCrmIntegration\Person\RepositoryInterface;
 /**
  * @covers \SocialSignIn\ExampleCrmIntegration\Controller\SearchController
  */
-class SearchControllerTest extends \PHPUnit_Framework_TestCase
+class SearchControllerTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -27,7 +27,7 @@ class SearchControllerTest extends \PHPUnit_Framework_TestCase
      */
     private $repository;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->repository = m::mock(RepositoryInterface::class);
         $container = new Container();
@@ -35,9 +35,10 @@ class SearchControllerTest extends \PHPUnit_Framework_TestCase
         $this->controller = new SearchController($container);
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         m::close();
+        parent::tearDown();
     }
 
     public function testItCanReturnHtml()
@@ -76,7 +77,7 @@ class SearchControllerTest extends \PHPUnit_Framework_TestCase
         $response = new Response();
 
         /** @var Response $response */
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $response = $this->controller->search($request, $response);
     }
 }

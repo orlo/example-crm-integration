@@ -7,7 +7,7 @@ use SocialSignIn\ExampleCrmIntegration\Person\Entity;
 /**
  * @covers \SocialSignIn\ExampleCrmIntegration\Person\Entity
  */
-class EntityTest extends \PHPUnit_Framework_TestCase
+class EntityTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testEntity()

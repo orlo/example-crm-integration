@@ -14,7 +14,7 @@ use SocialSignIn\ExampleCrmIntegration\Person\RepositoryInterface;
 /**
  * @covers \SocialSignIn\ExampleCrmIntegration\Controller\IFrameController
  */
-class IFrameControllerTest extends \PHPUnit_Framework_TestCase
+class IFrameControllerTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -32,7 +32,7 @@ class IFrameControllerTest extends \PHPUnit_Framework_TestCase
      */
     private $repository;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->twig = m::mock(\Twig_Environment::class);
         $this->repository = m::mock(RepositoryInterface::class);
@@ -44,9 +44,10 @@ class IFrameControllerTest extends \PHPUnit_Framework_TestCase
         $this->controller = new IFrameController($container);
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         m::close();
+        parent::tearDown();
     }
 
     public function testItCanReturnHtml()
