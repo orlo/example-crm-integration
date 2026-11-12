@@ -1,0 +1,4 @@
+vendor/
+cov/
+.git/
+.phpunit.result.cache
