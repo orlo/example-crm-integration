@@ -6,13 +6,13 @@ use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use SocialSignIn\ExampleCrmIntegration\Person\RepositoryInterface;
-use Twig_Environment;
+use Twig\Environment;
 
 final class IFrameController
 {
 
     /**
-     * @var Twig_Environment
+     * @var Environment
      */
     private $twig;
 

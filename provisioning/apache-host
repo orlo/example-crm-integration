@@ -10,10 +10,6 @@
         Require all granted
     </Directory>
 
-    <Location '/'>
-        Allow from All
-    </Location>
-
     ErrorLog /var/log/apache2/error.log 
     CustomLog /var/log/apache2/access.log combined
 

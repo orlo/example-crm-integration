@@ -23,7 +23,7 @@ class IFrameControllerTest extends \PHPUnit\Framework\TestCase
     private $controller;
 
     /**
-     * @var \Twig_Environment|m\Mock
+     * @var \Twig\Environment|m\Mock
      */
     private $twig;
 
@@ -34,7 +34,7 @@ class IFrameControllerTest extends \PHPUnit\Framework\TestCase
 
     public function setUp() : void
     {
-        $this->twig = m::mock(\Twig_Environment::class);
+        $this->twig = m::mock(\Twig\Environment::class);
         $this->repository = m::mock(RepositoryInterface::class);
 
         $container = new Container();

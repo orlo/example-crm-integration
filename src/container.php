@@ -7,10 +7,10 @@ use SocialSignIn\ExampleCrmIntegration\Controller\IFrameController;
 use SocialSignIn\ExampleCrmIntegration\Controller\SearchController;
 use SocialSignIn\ExampleCrmIntegration\Person\MockRepository;
 
-if(!isset($app)) {
+if (!isset($app)) {
     throw new \LogicException('$app?');
 }
-if(!isset($container)) {
+if (!isset($container)) {
     throw new \LogicException('$container?');
 }
 Assertion::isInstanceOf($app, App::class);
@@ -37,6 +37,6 @@ $container['person_repository'] = function () {
 };
 
 $container['twig'] = function () {
-    $loader = new Twig_Loader_Filesystem(__DIR__ . '/../templates');
-    return new Twig_Environment($loader, []);
+    $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
+    return new \Twig\Environment($loader, []);
 };

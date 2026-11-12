@@ -23,6 +23,7 @@ final class MockRepository implements RepositoryInterface
      *
      * @return Entity[]
      */
+    #[\Override]
     public function search($query)
     {
         $query = preg_quote($query, '!');
@@ -43,6 +44,7 @@ final class MockRepository implements RepositoryInterface
      *
      * @return Entity|null
      */
+    #[\Override]
     public function get($id)
     {
         if (isset($this->persons[$id])) {

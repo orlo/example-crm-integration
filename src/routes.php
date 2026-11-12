@@ -3,7 +3,7 @@
 use Assert\Assertion;
 use Slim\App;
 
-if(!isset($app)) {
+if (!isset($app)) {
     throw new \LogicException('$app?');
 }
 

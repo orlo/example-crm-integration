@@ -24,6 +24,6 @@ class ContainerSetupTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue(is_string($container->get('shared_secret')));
         $this->assertInstanceOf(RepositoryInterface::class, $container->get('person_repository'));
-        $this->assertInstanceOf(\Twig_Environment::class, $container->get('twig'));
+        $this->assertInstanceOf(\Twig\Environment::class, $container->get('twig'));
     }
 }

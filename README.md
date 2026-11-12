@@ -1,10 +1,10 @@
 # Example CRM Integration
 
-This project aims to illustrate the functionality required for a custom CRM to integrate with SocialSignIn.
+This project aims to illustrate the functionality required for a custom CRM to integrate with Orlo.
 
-## SocialSignIn Configuration 
+## Orlo Configuration 
 
-Within the SocialSignIn application, head to https://app.socialsignin.net/#/settings/inbox and add a Custom CRM integration.
+Within the Orlo application, head to https://www.orlo.app/#/settings/inbox and add a Custom CRM integration.
 
  * Name - something of your choosing
  * Search Endpoint URL - https://myserver.example.com/search
@@ -14,11 +14,11 @@ Within the SocialSignIn application, head to https://app.socialsignin.net/#/sett
 
 ( For this integration, the Search and Iframe Endpoint Secrets need to be the same, replace 'myserver.example.com' with a real hostname you have assigned to your deployment of this code ).
 
-### SocialSignIn Secret 
+### Orlo Secret 
 
-When SocialSignIn make requests on your integration, the requests are signed with a shared secret (SECRET) which you can check against, to ensure a third party isn't trying to access your pipedrive data.
+When Orlo make requests on your integration, the requests are signed with a shared secret (SECRET) which you can check against, to ensure a third party isn't trying to access your pipedrive data.
 
-You define this secret when adding the CRM integration within SocialSignIn. It can be a string of any length (although as with all passwords, longer is generally better).
+You define this secret when adding the CRM integration within Orlo. It can be a string of any length (although as with all passwords, longer is generally better).
 
 ## Sample Integration Installation
 
@@ -27,13 +27,13 @@ docker build -t crm-integration-image .
 docker run -e SECRET=changeme --rm --name crm-integration crm-integration-image
 ```
 
-Code should work on a generic-ish PHP 7.1 Linux server if you wish to deploy it manually. Sufficient setup instructions should be within the ```Dockerfile```. 
+Code should work on a generic-ish PHP 8 Linux server if you wish to deploy it manually. Sufficient setup instructions should be within the ```Dockerfile```. 
 
 It requires a SECRET environment variable to be set.
 
 ## Configuration
 
-The SECRET environment variable is used to verify that SocialSignIn made the CRM request, and for SocialSignIn to  verify responses.
+The SECRET environment variable is used to verify that Orlo made the CRM request, and for Orlo to  verify responses.
 
 The signing works by adding a sha256 hash\_hmac query parameter on all requests (see: http://php.net/hash\_hmac )
 
@@ -55,7 +55,7 @@ Any third party / custom integration needs to support the following :
  
  Assuming a shared secret of 'changeme!'
  
- A request from SocialSignIn searching for users matching 'red' might look like :
+ A request from Orlo searching for users matching 'red' might look like :
  
  ```raw
  GET $CustomUrl?q=red&expires=1500472622&sig=7c9a0a55dc2d1542ec736b8021f048da114fcba11ca1fb0219c122dfd789e48c HTTP/1.1
